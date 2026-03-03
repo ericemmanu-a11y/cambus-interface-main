@@ -12,7 +12,7 @@ export default function Sidebar({ user }: { user: any }) {
     { name: 'Cámaras', href: '/camaras', icon: Camera, roles: ['admin', 'supervisor', 'operador'] },
     { name: 'Vehículos', href: '/vehiculos', icon: Truck, roles: ['admin', 'supervisor'] },
     { name: 'Incidencias', href: '/incidencias', icon: ShieldAlert, roles: ['admin', 'supervisor', 'operador'] },
-    { name: 'Simulador', href: '/simulador', icon: MonitorPlay, roles: ['admin', 'supervisor', 'operador'] },
+    { name: 'Configuración', href: '/configuracion', icon: MonitorPlay, roles: ['admin', 'supervisor'] },
 
   ];
 

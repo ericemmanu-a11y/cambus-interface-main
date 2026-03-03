@@ -32,20 +32,19 @@ Sigue estos sencillos pasos para probar el proyecto localmente sin complicacione
 Hemos encapsulado toda la estructura, creación de usuarios, inyección de base de datos, y levantamiento de servidores en un único archivo ejecutable inteligente. 
 
 1. Abre la carpeta del código fuente de este proyecto.
-2. Haz doble click sobre el archivo **`setup.bat`** (Instalador Automático Windows).
-3. ¡No hagas nada más! El sistema automáticamente:
-   * Instalará las dependencias.
+2. Haz doble click sobre el archivo **`CamBus_Installer.exe`** (Asistente Mago Nivel Empresarial).
+3. Sigue los pasos en la ventana visual. El sistema automáticamente:
+   * Validará Node y PostgreSQL.
+   * Compilará Next.js para el máximo rendimiento de producción.
    * Conectará a PostgreSQL para crear tu base de datos y tus andenes sin usar PgAdmin.
-   * Abrirá el Servidor Web Front-End.
-   * Abrirá el Motor Simulador de Eventos Logísticos de Cámaras.
-   * Te abrirá el navegador listo para entrar.
+   * Te creará un Acceso Directo "Lanzador de CamBus V3" en tu Escritorio.
 
 *(Nota: Solo asegúrate de tener PostgreSQL instalado en tu máquina corriendo con el puerto 5432 y contraseña local estándar).*
 
-### 3. Uso de la Aplicación
+### 2. Uso de la Aplicación y Control del Simulador
 
-1.  Abre tu navegador de preferencia y entra a **`http://localhost:3000`**.
-2.  Deberás iniciar sesión. Existen 3 usuarios precargados en el script inicial. Usa el que gustes dependiendo de la experiencia a evaluar:
+1.  Dale doble click a tu nuevo acceso directo en el escritorio. Abrirá tu navegador en **`http://localhost:3000`**.
+2.  Deberás iniciar sesión. Existen 3 usuarios precargados.
 
 | Rol | Correo electrónico | Contraseña Obligatoria |
 | --- | --- | --- |
@@ -53,15 +52,10 @@ Hemos encapsulado toda la estructura, creación de usuarios, inyección de base 
 | **Supervisor** | `supervisor1@cambus.local` | `Sup3rv1sor!` |
 | **Operador** | (Crear uno nuevo manualmente) | `cambus_oper_123` |
 
-### 4. Extra: Ejecutar el Simulador Inteligente de Cámaras en Segundo Plano
-
-Para evaluar el sistema en **"Tiempo Real"** como si estuviera en la vida real, el proyecto incluye un Hub Testing (*Daemon*) que envía tráfico OCR/LPR logístico al dashboard en el fondo y puebla la base de datos de manera automatizada. 
-Para activarlo, abre **otra pestaña de terminal** (distinta a la que está corriendo `npm run dev`), sitúate en la carpeta de este proyecto y ejecuta:
-
-```bash
-npm run daemon
-```
-*Si tienes este comando corriendo, podrás navegar por el sistema web en la pestaña **Dashboard** y **Simulador** en el navegador y verás los datos de "Cámaras" en vivo registrando en su Base de datos.*
+3. El sistema **Simulador de Cámaras Automobilísticas LPR** ya no está activo por defecto. Para encenderlo (para hacer pruebas mecánicas y de stress a los andenes):
+   * Inicia Sesión como Administrador.
+   * Ve a "Configuración" en la Barra Lateral.
+   * Enciende el Motor pulsando el botón rojo de Activación del Simulador Daemon en Background.
 
 ---
 **Desarrollado para Entrega Final.**

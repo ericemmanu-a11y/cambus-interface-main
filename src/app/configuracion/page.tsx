@@ -1,3 +1,10 @@
+/**
+ * ============================================================================
+ * Proyecto CamBus V3 - Sistema de Control Logístico y LPR
+ * Desarrollado por: Eric Emmanuel (GitHub: ericemmanu-a11y)
+ * Propiedad Intelectual y Licencia de Uso Exclusivo
+ * ============================================================================
+ */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -108,9 +115,9 @@ export default function ConfiguracionPage() {
                             onClick={toggleDaemon}
                             disabled={isLoadingToggle}
                             className={`flex items-center gap-2 px-6 py-2 rounded-xl font-bold transition-all shadow-lg ${isLoadingToggle ? 'opacity-50 cursor-not-allowed bg-slate-700' :
-                                    daemonRunning
-                                        ? 'bg-rose-500 hover:bg-rose-400 shadow-rose-500/20 text-white'
-                                        : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-500/20 text-white'
+                                daemonRunning
+                                    ? 'bg-rose-500 hover:bg-rose-400 shadow-rose-500/20 text-white'
+                                    : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-500/20 text-white'
                                 }`}
                         >
                             <Power className="w-5 h-5" />

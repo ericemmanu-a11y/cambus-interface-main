@@ -35,11 +35,12 @@ Hemos encapsulado toda la estructura, creación de usuarios, inyección de base 
 2. Haz doble click sobre el archivo **`CamBus_Installer.exe`** (Asistente Mago Nivel Empresarial).
 3. Sigue los pasos en la ventana visual. El sistema automáticamente:
    * Validará Node y PostgreSQL.
+   * Te solicitará la contraseña Maestra de tu usuario de PostgreSQL (`postgres`) a través de una ventana segura.
    * Compilará Next.js para el máximo rendimiento de producción.
-   * Conectará a PostgreSQL para crear tu base de datos y tus andenes sin usar PgAdmin.
+   * Conectará a PostgreSQL para purgar instalaciones viejas, crear tu base de datos y tus andenes sin usar PgAdmin, cargando exitosamente las 50 cámaras de prueba.
    * Te creará un Acceso Directo "Lanzador de CamBus V3" en tu Escritorio.
 
-*(Nota: Solo asegúrate de tener PostgreSQL instalado en tu máquina corriendo con el puerto 5432 y contraseña local estándar).*
+*(Nota: Solo asegúrate de tener PostgreSQL 16 instalado en tu máquina corriendo con el puerto 5432).*
 
 ### 2. Uso de la Aplicación y Control del Simulador
 
@@ -58,4 +59,8 @@ Hemos encapsulado toda la estructura, creación de usuarios, inyección de base 
    * Enciende el Motor pulsando el botón rojo de Activación del Simulador Daemon en Background.
 
 ---
+---
+
 **Desarrollado para Entrega Final.**
+> *Propiedad Intelectual de Eric Emmanuel ([ericemmanu-a11y](https://github.com/ericemmanu-a11y))*  
+> *CamBus V3 - Sistema Inteligente de Gestión en Patio*

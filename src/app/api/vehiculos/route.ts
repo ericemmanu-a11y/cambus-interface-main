@@ -1,3 +1,10 @@
+/**
+ * ============================================================================
+ * Proyecto CamBus V3 - Sistema de Control Logístico y LPR
+ * Desarrollado por: Eric Emmanuel (GitHub: ericemmanu-a11y)
+ * Propiedad Intelectual y Licencia de Uso Exclusivo
+ * ============================================================================
+ */
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 import { cookies } from 'next/headers';
@@ -49,7 +56,7 @@ export async function POST(req: Request) {
             await client.query(`
                 INSERT INTO registros_vehiculos 
                 (placa, id_anden, evento, confianza_placa, hash_imagen)
-                VALUES ($1, $2, 'entrada', 99.9, encode(digest('registro_manual_' || $1 || extract(epoch from now())::text, 'sha256'), 'hex'))
+                VALUES ($1::varchar, $2::int, 'entrada', 99.9, encode(digest('registro_manual_' || $1::varchar || extract(epoch from now())::text, 'sha256'), 'hex'))
             `, [placa, id_anden]);
         }
         // Si es salida, actualizamos el registro que estaba "abierto" en ese andén
@@ -57,14 +64,14 @@ export async function POST(req: Request) {
             await client.query(`
                 UPDATE registros_vehiculos
                 SET evento = 'salida', fecha_hora_salida = NOW()
-                WHERE placa = $1 AND id_anden = $2 AND fecha_hora_salida IS NULL
+                WHERE placa = $1::varchar AND id_anden = $2::int AND fecha_hora_salida IS NULL
              `, [placa, id_anden]);
 
             // Insertamos un evento de salida para la tabla como historial nuevo también (replicando comportamiento real logs)
             await client.query(`
                 INSERT INTO registros_vehiculos 
                 (placa, id_anden, evento, confianza_placa, hash_imagen)
-                VALUES ($1, $2, 'salida', 99.9, encode(digest('registro_manual_salida_' || $1 || extract(epoch from now())::text, 'sha256'), 'hex'))
+                VALUES ($1::varchar, $2::int, 'salida', 99.9, encode(digest('registro_manual_salida_' || $1::varchar || extract(epoch from now())::text, 'sha256'), 'hex'))
             `, [placa, id_anden]);
         }
 

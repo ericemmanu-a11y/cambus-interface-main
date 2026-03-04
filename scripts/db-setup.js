@@ -1,3 +1,10 @@
+/**
+ * ============================================================================
+ * Proyecto CamBus V3 - Sistema de Control Logístico y LPR
+ * Desarrollado por: Eric Emmanuel (GitHub: ericemmanu-a11y)
+ * Propiedad Intelectual y Licencia de Uso Exclusivo
+ * ============================================================================
+ */
 const { Client } = require('pg');
 const fs = require('fs');
 const path = require('path');

@@ -1,3 +1,10 @@
+/**
+ * ============================================================================
+ * Proyecto CamBus V3 - Sistema de Control Logístico y LPR
+ * Desarrollado por: Eric Emmanuel (GitHub: ericemmanu-a11y)
+ * Propiedad Intelectual y Licencia de Uso Exclusivo
+ * ============================================================================
+ */
 import type { Metadata } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import './globals.css';

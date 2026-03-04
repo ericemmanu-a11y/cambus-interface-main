@@ -30,7 +30,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="es" className="dark scroll-smooth">
+    <html lang="es" className="dark scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.variable} ${outfit.variable} font-sans bg-slate-950 text-slate-50 min-h-screen selection:bg-blue-500/30 overflow-hidden`}>
         <div className="flex h-screen w-full relative">
           <Sidebar user={user} />

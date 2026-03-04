@@ -27,13 +27,13 @@ async function setupDatabase() {
 
         console.log('✅ Conexión maestra exitosa.');
 
-        // Check if role exists
         const resRole = await masterClient.query(`SELECT 1 FROM pg_roles WHERE rolname='${targetUser}'`);
         if (resRole.rowCount === 0) {
             console.log(`👤 Creando usuario administrador: ${targetUser}...`);
             await masterClient.query(`CREATE ROLE ${targetUser} WITH LOGIN PASSWORD '${targetPass}' SUPERUSER;`);
         } else {
-            console.log(`✔️  Usuario ${targetUser} ya existe, saltando...`);
+            console.log(`✔️  Usuario ${targetUser} ya existe, forzando actualización de la contraseña...`);
+            await masterClient.query(`ALTER ROLE ${targetUser} WITH PASSWORD '${targetPass}';`);
         }
 
         // Check if DB exists

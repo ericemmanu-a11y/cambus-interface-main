@@ -49,7 +49,7 @@ export default function LoginPage() {
 
             <div className="w-full max-w-md relative z-10">
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center p-2 bg-white border border-slate-700 rounded-2xl mb-6 shadow-xl w-24 h-24 overflow-hidden shadow-blue-500/10">
+                    <div className="inline-flex items-center justify-center p-3 bg-white border border-slate-700 rounded-3xl mb-6 shadow-2xl w-36 h-36 overflow-hidden shadow-blue-500/20">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src="/logo.png" alt="CamBus Logo" className="w-full h-full object-contain" />
                     </div>

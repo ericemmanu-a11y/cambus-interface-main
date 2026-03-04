@@ -12,6 +12,8 @@ namespace CamBusInstaller
         private Button btnNext;
         private Label lblTitle;
         private Label lblDescription;
+        private Label lblPassword;
+        private TextBox txtPassword;
         private ProgressBar progressBar;
         private int currentStep = 0;
 
@@ -38,6 +40,21 @@ namespace CamBusInstaller
             lblDescription.Location = new Point(20, 70);
             lblDescription.Size = new Size(450, 80);
 
+            lblPassword = new Label();
+            lblPassword.Text = "Contraseña de tu usuario 'postgres' local:";
+            lblPassword.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            lblPassword.ForeColor = Color.White;
+            lblPassword.Location = new Point(20, 150);
+            lblPassword.AutoSize = true;
+
+            txtPassword = new TextBox();
+            txtPassword.Location = new Point(20, 175);
+            txtPassword.Size = new Size(250, 25);
+            txtPassword.Font = new Font("Segoe UI", 10);
+            txtPassword.PasswordChar = '•';
+            txtPassword.BackColor = Color.FromArgb(30, 41, 59);
+            txtPassword.ForeColor = Color.White;
+
             progressBar = new ProgressBar();
             progressBar.Location = new Point(20, 180);
             progressBar.Size = new Size(440, 25);
@@ -57,6 +74,8 @@ namespace CamBusInstaller
 
             this.Controls.Add(lblTitle);
             this.Controls.Add(lblDescription);
+            this.Controls.Add(lblPassword);
+            this.Controls.Add(txtPassword);
             this.Controls.Add(progressBar);
             this.Controls.Add(btnNext);
         }
@@ -65,7 +84,18 @@ namespace CamBusInstaller
         {
             if (currentStep == 0)
             {
+                if (string.IsNullOrWhiteSpace(txtPassword.Text))
+                {
+                    MessageBox.Show("Por favor ingresa la contraseña de tu PostgreSQL maestro.", "Requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Configurar variable de entorno para que el script de Node la lea
+                Environment.SetEnvironmentVariable("PG_MASTER_PASS", txtPassword.Text);
+
                 btnNext.Enabled = false;
+                lblPassword.Visible = false;
+                txtPassword.Visible = false;
                 progressBar.Visible = true;
                 progressBar.Style = ProgressBarStyle.Marquee;
                 
@@ -73,7 +103,6 @@ namespace CamBusInstaller
             }
             else if (currentStep == 1)
             {
-                // Finished
                 CreateDesktopShortcut();
                 this.Close();
             }
@@ -107,7 +136,7 @@ namespace CamBusInstaller
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error durante la instalación: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error durante la instalación: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
         }
@@ -120,16 +149,11 @@ namespace CamBusInstaller
                 psi.WindowStyle = ProcessWindowStyle.Hidden;
                 psi.CreateNoWindow = true;
                 psi.UseShellExecute = false;
-                psi.WorkingDirectory = Application.StartupPath; // Ensure it runs on the repo root
+                psi.WorkingDirectory = Application.StartupPath; // Asegura que corra donde esté el exe
 
                 using (Process process = Process.Start(psi))
                 {
                     process.WaitForExit();
-                    if (process.ExitCode != 0)
-                    {
-                         // We won't throw exception on warnings, just proceed assuming user has correct env
-                         // throw new Exception("El comando '" + command + "' falló con código " + process.ExitCode);
-                    }
                 }
             });
         }

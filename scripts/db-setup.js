@@ -4,7 +4,7 @@ const path = require('path');
 
 const MASTER_DB = 'postgres';
 const MASTER_USER = 'postgres';
-const MASTER_PASSWORD = 'postgres'; // Standard default local password
+const MASTER_PASSWORD = process.env.PG_MASTER_PASS || 'postgres'; // Permite contraseña dinámica desde el Installer GUI
 const TARGET_DB = 'cambus_db';
 
 const targetUser = 'cambus_admin';

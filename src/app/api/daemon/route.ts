@@ -45,7 +45,14 @@ export async function POST(req: Request) {
             const cmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
             global._daemonProcess = spawn(cmd, ['run', 'daemon'], {
                 detached: false,
+                cwd: process.cwd(),
+                shell: true,
                 stdio: 'ignore'
+            });
+
+            global._daemonProcess.on('error', (err) => {
+                console.error('Failed to start daemon process:', err);
+                global._daemonProcess = null;
             });
 
             global._daemonProcess.on('exit', () => {

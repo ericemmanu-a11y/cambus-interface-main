@@ -36,15 +36,22 @@ async function setupDatabase() {
             await masterClient.query(`ALTER ROLE ${targetUser} WITH PASSWORD '${targetPass}';`);
         }
 
-        // Check if DB exists
+        // Check if DB exists and DROP it cleanly to ensure seed runs afresh with new 50 cameras
         const resDb = await masterClient.query(`SELECT 1 FROM pg_database WHERE datname='${TARGET_DB}'`);
-        if (resDb.rowCount === 0) {
-            console.log(`🗄️  Creando Base de Datos: ${TARGET_DB}...`);
-            await masterClient.query(`CREATE DATABASE ${TARGET_DB} OWNER ${targetUser};`);
-            // Adding pgcrypto to the new DB requires connecting to it, we'll do that below.
-        } else {
-            console.log(`✔️  Base de datos ${TARGET_DB} ya existe, conectando para asegurar esquemas...`);
+        if (resDb.rowCount > 0) {
+            console.log(`⚠️  Base de datos ${TARGET_DB} ya existe. Eliminando versión antigua para actualización limpia...`);
+            // Terminate open connections to the DB before dropping
+            await masterClient.query(`
+                SELECT pg_terminate_backend(pg_stat_activity.pid)
+                FROM pg_stat_activity
+                WHERE pg_stat_activity.datname = '${TARGET_DB}' AND pid <> pg_backend_pid();
+            `);
+            await masterClient.query(`DROP DATABASE "${TARGET_DB}";`);
         }
+
+        console.log(`🗄️  Creando Base de Datos "Fresca": ${TARGET_DB}...`);
+        await masterClient.query(`CREATE DATABASE ${TARGET_DB} OWNER ${targetUser};`);
+
     } catch (err) {
         console.log('❌ ERROR GRAVE: No se pudo conectar al servidor PostgreSQL.');
         console.log('Por favor, asegúrate de que PostgreSQL está instalado y corriendo con usuario "postgres" y contraseña "postgres".');

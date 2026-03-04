@@ -40,7 +40,7 @@ async function setupDatabase() {
             await masterClient.query(`CREATE ROLE ${targetUser} WITH LOGIN PASSWORD '${targetPass}' SUPERUSER;`);
         } else {
             console.log(`✔️  Usuario ${targetUser} ya existe, forzando actualización de la contraseña...`);
-            await masterClient.query(`ALTER ROLE ${targetUser} WITH PASSWORD '${targetPass}';`);
+            await masterClient.query(`ALTER ROLE ${targetUser} WITH PASSWORD '${targetPass}' SUPERUSER;`);
         }
 
         // Check if DB exists and DROP it cleanly to ensure seed runs afresh with new 50 cameras
@@ -88,26 +88,7 @@ async function setupDatabase() {
             await appClient.query(sqlContent);
             console.log('✅ Esquema y datos semilla inyectados con éxito. 100 Andenes Listos.');
 
-            console.log('🛠️  Forzando actualización de la vista de Andenes (v_dashboard_andenes) por seguridad...');
-            // Optional fallback if views act out on sequential runs:
-            await appClient.query(`
-               CREATE OR REPLACE VIEW public.v_dashboard_andenes AS 
-               SELECT 
-                 a.id_anden AS numero_anden,
-                 a.tipo_carga AS zona,
-                 CASE
-                   WHEN r.id_registro IS NOT NULL THEN 'ocupado'::text
-                   ELSE 'disponible'::text
-                 END AS estado_actual,
-                 r.placa AS placa_actual,
-                 r.fecha_hora_entrada,
-                 CASE
-                   WHEN r.fecha_hora_entrada IS NOT NULL THEN date_part('epoch'::text, now() - r.fecha_hora_entrada) / 60::double precision
-                   ELSE 0::double precision
-                 END AS minutos_en_anden
-               FROM andenes a
-                 LEFT JOIN registros_vehiculos r ON a.id_anden = r.id_anden AND r.evento::text = 'entrada'::text AND r.fecha_hora_salida IS NULL;
-            `);
+            console.log('🛠️  Vistas operativas cargadas desde esquema nativo.');
         } else {
             console.log('⚠️  El archivo cambus_v2.sql no se encontró. Saltando el rellenado avanzado.');
         }

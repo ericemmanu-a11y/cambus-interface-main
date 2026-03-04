@@ -243,6 +243,7 @@ ORDER BY a.numero_anden;
 
 GRANT SELECT ON v_dashboard_andenes TO cambus_operador;
 GRANT SELECT ON v_dashboard_andenes TO cambus_supervisor;
+GRANT ALL ON v_dashboard_andenes TO cambus_admin;
 
 CREATE OR REPLACE VIEW v_resumen_diario AS
 SELECT
@@ -259,6 +260,7 @@ GROUP BY DATE(fecha_hora_entrada)
 ORDER BY fecha DESC;
 
 GRANT SELECT ON v_resumen_diario TO cambus_supervisor;
+GRANT ALL ON v_resumen_diario TO cambus_admin;
 
 CREATE OR REPLACE VIEW v_alertas_sobreestancia AS
 SELECT
@@ -280,6 +282,7 @@ ORDER BY rv.fecha_hora_entrada ASC;
 
 GRANT SELECT ON v_alertas_sobreestancia TO cambus_supervisor;
 GRANT SELECT ON v_alertas_sobreestancia TO cambus_operador;
+GRANT ALL ON v_alertas_sobreestancia TO cambus_admin;
 
 -- =========================================================
 -- SECCIÓN 8: DATOS DE PRUEBA

@@ -163,18 +163,30 @@ namespace CamBusInstaller
             try
             {
                 string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string shortcutPath = Path.Combine(desktopFolder, "CamBus V3 Launcher.bat");
+                string batPath = Path.Combine(Application.StartupPath, "launcher.bat");
+                string shortcutPath = Path.Combine(desktopFolder, "CamBus V3 Launcher.lnk");
+                string iconPath = Path.Combine(Application.StartupPath, "public", "logo.ico");
 
                 string batContent = "@echo off\r\n" +
                                     "cd /d \"%~dp0\"\r\n" +
-                                    "cd /d \"" + Application.StartupPath + "\"\r\n" +
                                     "echo Iniciando Servidor Web...\r\n" +
                                     "start cmd /c npm run dev\r\n" +
                                     "timeout /t 3 >nul\r\n" +
                                     "start http://localhost:3000\r\n";
 
-                File.WriteAllText(shortcutPath, batContent);
-                MessageBox.Show("¡Acceso Directo 'CamBus V3 Launcher' creado en su Escritorio!", "Instalación Completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                File.WriteAllText(batPath, batContent);
+                
+                string psCommand = string.Format("$s=(New-Object -COM WScript.Shell).CreateShortcut('{0}');$s.TargetPath='{1}';$s.WorkingDirectory='{2}';$s.IconLocation='{3}';$s.Save()", shortcutPath, batPath, Application.StartupPath, iconPath);
+                
+                ProcessStartInfo psi = new ProcessStartInfo("powershell", string.Format("-NoProfile -ExecutionPolicy Bypass -Command \"{0}\"", psCommand));
+                psi.WindowStyle = ProcessWindowStyle.Hidden;
+                psi.CreateNoWindow = true;
+                using (Process process = Process.Start(psi))
+                {
+                    process.WaitForExit();
+                }
+
+                MessageBox.Show("¡Acceso Directo 'CamBus V3 Launcher' creado en su Escritorio con Icono Propio!", "Instalación Completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch { }
         }
